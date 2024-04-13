@@ -1,21 +1,32 @@
-import { useReactTable, getCoreRowModel, flexRender } from '@tanstack/react-table'
+import { useReactTable, getCoreRowModel, flexRender, getSortedRowModel } from '@tanstack/react-table'
 import data from '../data/MOCK_DATA.json'
+import { useState } from 'react'
 
 const SimpleTable = () => {
 
     const columns = [
         {
             header: 'ID',
-            accessorKey: 'id'
+            accessorKey: 'id',
+            footer: 'myId'
         },
         {
-            header: 'Name',
-            accessorKey: 'name'
+            header: 'Full Name',
+            columns: [
+                {
+                    header: 'Name',
+                    accessorKey: 'name'
+                },
+                {
+                    header: 'Lastname',
+                    accessorKey: 'lastname'
+                },
+            ]
         },
-        {
-            header: 'Lastname',
-            accessorKey: 'lastname'
-        },
+        // {
+        //     header: 'Full name',
+        //     accessorFn: row => `${row.name} ${row.lastname}`
+        // },
         {
             header: 'Email',
             accessorKey: 'email'
@@ -30,10 +41,17 @@ const SimpleTable = () => {
         },
     ]
 
+    const [sorting, setSorting] = useState([])
+
     const table = useReactTable({
         data,
         columns,
-        getCoreRowModel: getCoreRowModel()
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        state: {
+            sorting
+        },
+        onSortingChange: setSorting
     })
 
   return (
@@ -45,8 +63,11 @@ const SimpleTable = () => {
                         <tr key={headerGroup.id}>
                             {
                                 headerGroup.headers.map( header => (
-                                    <th key={header.id}>
-                                        {header.column.columnDef.header}
+                                    <th 
+                                        key={header.id}
+                                        onClick={header.column.getToggleSortingHandler()}
+                                    >
+                                        {header.placeholderId ? null : header.column.columnDef.header}
                                     </th>
                                 ))
                             }
@@ -69,6 +90,11 @@ const SimpleTable = () => {
                     ))
                 }
             </tbody>
+            <tfoot>
+                {
+                    table.getFooterGroups
+                }
+            </tfoot>
         </table>
     </div>
   )
