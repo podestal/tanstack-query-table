@@ -33,21 +33,49 @@ const StudentsTable = () => {
 
     const studentsData = students.map( student => {
 
-        console.log('student', student?.grades[2].activity.title);
+        const gradesActivity = student.grades.map( grade => {
+            const activity = String(grade.activity.title)
+            const obj = {}
+            obj[activity] = grade.calification
+            return {
+                ...obj
+            }
+        })
 
-        return {
+        return Object.assign({            
             'firstName': student.first_name,
-            'lastName': student.last_name
-        }
+            'lastName': student.last_name,
+        }, ...gradesActivity)
+
     })
 
-    const columnsDynamic = students.map( (student, idx) => {
+    // const columnsDynamic = studentsData.map( student => {
 
-        return {
-            header: String(student.grades[idx].activity.title),
-            accessorFn: row => row.grades[idx].calification
-        }
-    })
+    //     return {
+    //         header: String(student.grades[idx].activity.title),
+    //         accessorFn: row => row.grades[idx].calification
+    //         header: student.firstName,
+    //         accessorFn: row => row.firstName
+    //     }
+    // })
+
+    // const columnsDynamic = studentsData.map( (student, idx) => {
+    //     return {
+    //         header: Object.keys(student.gradesActivity[idx])[0],
+    //         accessorFn: row => {
+    //             // console.log('row',row)
+    //         }
+    //     }
+    // })
+
+    // const columnsDynamic = studentsData && studentsData.map( (student) => {
+    //     console.log(student.firstName)
+    //     return student.gradesActivity.map( grade => ({
+    //         header: String(grade.activity),
+
+    //     }))
+
+    // })
 
     
 
@@ -56,20 +84,20 @@ const StudentsTable = () => {
         columns: [
             {
                 header: 'First Name',
-                accessorKey: 'first_name'
+                accessorKey: 'firstName'
             },
             {
                 header: 'Last Name',
-                accessorKey: 'last_name'
+                accessorKey: 'lastName'
             },
-            ...columnsDynamic
+            // ...columnsDynamic
         ],
         getCoreRowModel: getCoreRowModel()
     })
 
   return (
     <div>
-        {/* {console.log('StudentsData',studentsData)} */}
+        {console.log('studentsData', studentsData)}
         <table>
             <thead>
                 {
