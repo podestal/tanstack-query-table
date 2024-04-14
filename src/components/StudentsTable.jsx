@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useReactTable, flexRender, getCoreRowModel } from "@tanstack/react-table"
 import { students } from "../data/students"
 import { grades } from "../data/grades"
+import { activities } from "../data/activities"
 
 const StudentsTable = () => {
 
@@ -49,6 +50,14 @@ const StudentsTable = () => {
 
     })
 
+
+    const columnsDynamic = activities.map( activity => {
+        return {
+            header: String(activity.title),
+            accessorKey: String(activity.title)
+        }
+    })
+
     // const columnsDynamic = studentsData.map( student => {
 
     //     return {
@@ -77,21 +86,9 @@ const StudentsTable = () => {
 
     // })
 
-    
-
     const table = useReactTable({
-        data: students,
-        columns: [
-            {
-                header: 'First Name',
-                accessorKey: 'firstName'
-            },
-            {
-                header: 'Last Name',
-                accessorKey: 'lastName'
-            },
-            // ...columnsDynamic
-        ],
+        data: studentsData,
+        columns: columnsDynamic,
         getCoreRowModel: getCoreRowModel()
     })
 
