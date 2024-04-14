@@ -88,13 +88,22 @@ const StudentsTable = () => {
 
     const table = useReactTable({
         data: studentsData,
-        columns: columnsDynamic,
+        columns: [        
+            {
+                header: 'First Name',
+                accessorKey: 'firstName'
+            },
+            {
+                header: 'Last Name',
+                accessorKey: 'lastName'
+            },
+            ...columnsDynamic
+        ],
         getCoreRowModel: getCoreRowModel()
     })
 
   return (
     <div>
-        {console.log('studentsData', studentsData)}
         <table>
             <thead>
                 {
