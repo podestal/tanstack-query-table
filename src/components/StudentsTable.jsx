@@ -1,28 +1,28 @@
 import { useState } from "react"
 import { useReactTable, flexRender, getCoreRowModel, getSortedRowModel, } from "@tanstack/react-table"
-import { students } from "../data/students"
-import { grades } from "../data/grades"
-import { activities } from "../data/activities"
+import { studentsData } from "./StudentsData"
+import { columnsDynamic } from "./columnsDynamic"
 
 const StudentsTable = () => {
 
-    const studentsData = students.map( student => {
-
-        const gradesActivity = student.grades.map( grade => {
-            const activity = String(grade.activity.title)
-            const obj = {}
-            obj[activity] = grade.calification
-            return {
-                ...obj
-            }
-        })
-
-        return Object.assign({            
-            'firstName': student.first_name,
-            'lastName': student.last_name,
-        }, ...gradesActivity)
-
-    })
+    // const columns = [
+        // {
+        //     header: 'First Name',
+        //     accessorKey: 'first_name'
+        // },
+        // {
+        //     header: 'Grades',
+        //     accessorFn: row => row.grades[0].calification
+        // }
+        // {
+        //     header: 'Last Name',
+        //     accessorKey: 'last_name'
+        // },
+        // {
+        //     header: 'Activity',
+        //     accessorFn: row => console.log(row)
+        // }
+    // ]
 
     const columns = [        
         {
@@ -33,11 +33,11 @@ const StudentsTable = () => {
             header: 'Last Name',
             accessorKey: 'lastName'
         },
-        // ...columnsDynamic
+        ...columnsDynamic
     ]
 
     const [sorting, setSorting] = useState([])
-    const [name, setName] = useState('')
+    const [filter, setFilter] = useState('')
 
     const table = useReactTable({
         data: studentsData,
@@ -50,9 +50,6 @@ const StudentsTable = () => {
 
   return (
     <div>
-        <input 
-    
-        />
         <table>
             <thead>
                 {
