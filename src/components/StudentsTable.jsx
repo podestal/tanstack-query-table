@@ -1,28 +1,9 @@
 import { useState } from "react"
-import { useReactTable, flexRender, getCoreRowModel, getSortedRowModel, } from "@tanstack/react-table"
+import { useReactTable, flexRender, getCoreRowModel, getSortedRowModel, getFilteredRowModel } from "@tanstack/react-table"
 import { studentsData } from "./StudentsData"
 import { columnsDynamic } from "./columnsDynamic"
 
 const StudentsTable = () => {
-
-    // const columns = [
-        // {
-        //     header: 'First Name',
-        //     accessorKey: 'first_name'
-        // },
-        // {
-        //     header: 'Grades',
-        //     accessorFn: row => row.grades[0].calification
-        // }
-        // {
-        //     header: 'Last Name',
-        //     accessorKey: 'last_name'
-        // },
-        // {
-        //     header: 'Activity',
-        //     accessorFn: row => console.log(row)
-        // }
-    // ]
 
     const columns = [        
         {
@@ -43,6 +24,11 @@ const StudentsTable = () => {
         data: studentsData,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        state: {
+            globalFilter: filter
+        },
+        onGlobalFilterChange: setFilter
         // getSortedRowModel: getSortedRowModel(),
         // state: sorting,
         // onSortingChange: setSorting
@@ -50,6 +36,7 @@ const StudentsTable = () => {
 
   return (
     <div>
+        <input type="text" value={filter} onChange={e => setFilter(e.target.value)}/>
         <table>
             <thead>
                 {
