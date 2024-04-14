@@ -1,10 +1,10 @@
-import SimpleTable from "./components/SimpleTable"
+import StudentsTable from "./components/StudentsTable"
 
 const App = () => {
 
   return (
     <div>
-      <SimpleTable />
+      <StudentsTable />
     </div>
   )
 }
