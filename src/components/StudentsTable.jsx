@@ -26,12 +26,13 @@ const StudentsTable = () => {
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         state: {
+            sorting,
             globalFilter: filter
         },
-        onGlobalFilterChange: setFilter
-        // getSortedRowModel: getSortedRowModel(),
+        onGlobalFilterChange: setFilter,
+        getSortedRowModel: getSortedRowModel(),
         // state: sorting,
-        // onSortingChange: setSorting
+        onSortingChange: setSorting
     })
 
   return (
@@ -48,6 +49,7 @@ const StudentsTable = () => {
                                 headerGroup.headers.map( header => (
                                     <th 
                                         key={header.id}
+                                        onClick={header.column.getToggleSortingHandler()}
                                     >
                                         {header.placeholderId ? null : header.column.columnDef.header}
                                     </th>
