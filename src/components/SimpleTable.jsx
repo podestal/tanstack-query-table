@@ -1,4 +1,4 @@
-import { useReactTable, getCoreRowModel, flexRender, getSortedRowModel } from '@tanstack/react-table'
+import { useReactTable, getCoreRowModel, flexRender, getSortedRowModel, getFilteredRowModel } from '@tanstack/react-table'
 import data from '../data/MOCK_DATA.json'
 import { useState } from 'react'
 
@@ -42,20 +42,26 @@ const SimpleTable = () => {
     ]
 
     const [sorting, setSorting] = useState([])
+    const [name, setName] = useState('')
 
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
         state: {
-            sorting
+            sorting,
+            globalFilter: name
         },
-        onSortingChange: setSorting
+        onSortingChange: setSorting,
+        onGlobalFilterChange: setName
+            
     })
 
   return (
     <div>
+        <input type="text" value={name} onChange={e => setName(e.target.value)} />
         <table>
             <thead>
                 {
